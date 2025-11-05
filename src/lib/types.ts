@@ -26,3 +26,22 @@ export interface DashboardStats {
   dailyGuests: number;
   monthlyRevenue: number;
 }
+export type ComplaintStatus = 'open' | 'in_progress' | 'resolved' | 'closed';
+export type ComplaintPriority = 'low' | 'medium' | 'high';
+export interface ComplaintReply {
+  id: string;
+  author: Pick<User, 'id' | 'name' | 'avatarUrl' | 'role'>;
+  message: string;
+  timestamp: string; // ISO 8601 format
+}
+export interface Complaint {
+  id: string;
+  student: Pick<User, 'id' | 'name' | 'avatarUrl'> & { studentId: string };
+  title: string;
+  description: string;
+  submittedAt: string; // ISO 8601 format
+  status: ComplaintStatus;
+  priority: ComplaintPriority;
+  tags: string[];
+  replies: ComplaintReply[];
+}

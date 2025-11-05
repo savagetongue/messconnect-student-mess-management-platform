@@ -15,12 +15,16 @@ import { HomePage } from '@/pages/HomePage'
 import { ManagerDashboardPage } from '@/pages/manager/DashboardPage';
 import { ManagerJoinRequestsPage } from '@/pages/manager/JoinRequestsPage';
 import { ManagerBroadcastPage } from '@/pages/manager/BroadcastPage';
+import { ManagerComplaintsPage } from '@/pages/manager/ComplaintsPage';
+import { StudentDashboardPage } from '@/pages/student/DashboardPage';
+import { StudentComplaintsPage } from '@/pages/student/ComplaintsPage';
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
     errorElement: <RouteErrorBoundary />,
     children: [
+      // Manager Routes
       {
         path: "manager/dashboard",
         element: <ManagerDashboardPage />,
@@ -33,14 +37,26 @@ const router = createBrowserRouter([
         path: "manager/broadcasts",
         element: <ManagerBroadcastPage />,
       },
-      // Redirect from root to manager dashboard
+      {
+        path: "manager/complaints",
+        element: <ManagerComplaintsPage />,
+      },
+      // Student Routes
+      {
+        path: "student/dashboard",
+        element: <StudentDashboardPage />,
+      },
+      {
+        path: "student/complaints",
+        element: <StudentComplaintsPage />,
+      },
+      // Redirect from root to manager dashboard by default
       {
         index: true,
         element: <Navigate to="/manager/dashboard" replace />,
       }
     ]
   },
-  // Add other top-level routes like /login, /student etc. in future phases
 ]);
 // Do not touch this code
 createRoot(document.getElementById('root')!).render(

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
 import {
@@ -35,17 +35,17 @@ export function ManagerComplaintsPage() {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
-  const fetchComplaints = useCallback(async () => {
-    if (user) {
-      setLoading(true);
-      const data = await getComplaintsByRole('manager', user.id);
-      setComplaints(data);
-      setLoading(false);
-    }
-  }, [user]);
   useEffect(() => {
+    const fetchComplaints = async () => {
+      if (user) {
+        setLoading(true);
+        const data = await getComplaintsByRole('manager', user.id);
+        setComplaints(data);
+        setLoading(false);
+      }
+    };
     fetchComplaints();
-  }, [fetchComplaints]);
+  }, [user]);
   const renderSkeleton = () => (
     Array.from({ length: 5 }).map((_, i) => (
       <TableRow key={i}>
@@ -114,7 +114,7 @@ export function ManagerComplaintsPage() {
       </motion.div>
       <Sheet open={!!selectedComplaint} onOpenChange={(isOpen) => !isOpen && setSelectedComplaint(null)}>
         <SheetContent className="sm:max-w-lg w-[90vw]">
-          {selectedComplaint && <ComplaintDetails complaint={selectedComplaint} onUpdate={fetchComplaints} />}
+          {selectedComplaint && <ComplaintDetails complaint={selectedComplaint} />}
         </SheetContent>
       </Sheet>
     </div>

@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { ManagerSidebar } from '@/components/manager/ManagerSidebar';
+import { StudentSidebar } from '@/components/student/StudentSidebar';
 import { useAuth } from '@/hooks/useAuth';
 import { Skeleton } from '@/components/ui/skeleton';
 function ManagerLayout() {
@@ -10,8 +11,15 @@ function ManagerLayout() {
     </AppLayout>
   );
 }
+function StudentLayout() {
+  return (
+    <AppLayout sidebar={<StudentSidebar />}>
+      <Outlet />
+    </AppLayout>
+  );
+}
 export function HomePage() {
-  const { isAuthenticated, isManager, loading } = useAuth();
+  const { isAuthenticated, isManager, isStudent, loading } = useAuth();
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -24,15 +32,16 @@ export function HomePage() {
     );
   }
   if (!isAuthenticated) {
-    // In a real app, you'd redirect to a login page.
-    // For this phase, we assume the manager is always logged in.
+    // For this phase, we assume a user is always logged in.
+    // In a real app, redirect to a login page.
     // return <Navigate to="/login" replace />;
   }
   if (isManager) {
-    // The ManagerLayout will render the correct nested page via <Outlet />
     return <ManagerLayout />;
   }
-  // Fallback for other roles or if not authenticated (for future phases)
-  // For now, this will effectively redirect to the manager dashboard if the path is "/"
+  if (isStudent) {
+    return <StudentLayout />;
+  }
+  // Fallback redirect
   return <Navigate to="/manager/dashboard" replace />;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
+import { RoleSwitcher } from '@/components/shared/RoleSwitcher';
 type AppLayoutProps = {
   children: React.ReactNode;
   sidebar?: React.ReactNode;
@@ -39,7 +40,7 @@ export function AppLayout({
         </main>
         <footer className="app-footer">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-muted-foreground text-sm">
-            <p>Built with ��️ at Cloudflare</p>
+            <p>Built with ❤️ at Cloudflare</p>
           </div>
         </footer>
         <div className="ai-notice">
@@ -47,6 +48,7 @@ export function AppLayout({
             <strong>Note:</strong> AI features have a shared request limit across all users.
           </p>
         </div>
+        <RoleSwitcher />
       </SidebarInset>
       <Toaster richColors closeButton />
     </SidebarProvider>
