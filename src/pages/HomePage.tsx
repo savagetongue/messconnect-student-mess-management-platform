@@ -40,9 +40,8 @@ export function HomePage() {
     );
   }
   if (!isAuthenticated) {
-    // In a real app, this would be a more robust check.
-    // For this mock setup, we allow access but a real app would redirect.
-    // return <Navigate to="/login" replace />;
+    // This is the critical fix: redirect unauthenticated users to the login page.
+    return <Navigate to="/login" replace />;
   }
   // For the purpose of this demo, we will cycle through roles.
   // A real app would have a single role per user.
