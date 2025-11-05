@@ -2,7 +2,7 @@
 
 MessConnect is a comprehensive, visually stunning, and highly intuitive platform for managing student mess facilities, built on Cloudflare's serverless infrastructure. It provides a seamless experience for students, managers, and administrators through role-based dashboards. Key features include a streamlined student admission and subscription workflow, automated monthly billing, secure one-time guest payments, an AI-powered complaint resolution system, real-time notifications, and detailed analytics. The system is designed for security, scalability, and operational excellence, ensuring all interactions are idempotent and fully audited.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/savagetongue/messconnect-student-mess-management-platform)
 
 ## ✨ Key Features
 
@@ -106,7 +106,7 @@ Deploying the application to Cloudflare is a straightforward process.
 
 Alternatively, you can deploy directly from your GitHub repository.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/savagetongue/messconnect-student-mess-management-platform)
 
 ## 📂 Project Structure
 
