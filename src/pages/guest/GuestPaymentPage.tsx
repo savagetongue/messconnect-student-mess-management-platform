@@ -8,22 +8,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { CreditCard, Utensils } from 'lucide-react';
-const guestPaymentSchema = z.object({
+const paymentSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
   contact: z.string().min(10, 'Please enter a valid contact number or email.'),
   amount: z.coerce.number().positive('Amount must be positive.'),
 });
-type GuestPaymentFormValues = z.infer<typeof guestPaymentSchema>;
+export type PaymentFormValues = z.infer<typeof paymentSchema>;
 export function GuestPaymentPage() {
-  const form = useForm<GuestPaymentFormValues>({
-    resolver: zodResolver(guestPaymentSchema),
+  const form = useForm<PaymentFormValues>({
+    resolver: zodResolver(paymentSchema),
     defaultValues: {
       name: '',
       contact: '',
       amount: 150,
     },
   });
-  function onSubmit(values: GuestPaymentFormValues) {
+  function onSubmit(values: PaymentFormValues) {
     console.log(values);
     toast.success('Payment Initiated!', {
       description: `A payment link has been sent to ${values.contact}.`,
@@ -85,7 +85,7 @@ export function GuestPaymentPage() {
                       <FormLabel>Amount</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">₹</span>
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">���</span>
                           <Input type="number" placeholder="150" className="pl-7" {...field} readOnly />
                         </div>
                       </FormControl>
@@ -102,7 +102,7 @@ export function GuestPaymentPage() {
           </CardContent>
         </Card>
         <p className="text-center text-xs text-muted-foreground mt-4">
-          Built with ❤️ at Cloudflare
+          Built with ❤��� at Cloudflare
         </p>
       </motion.div>
     </div>
