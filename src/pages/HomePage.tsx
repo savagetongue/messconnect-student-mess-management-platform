@@ -2,6 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { ManagerSidebar } from '@/components/manager/ManagerSidebar';
 import { StudentSidebar } from '@/components/student/StudentSidebar';
+import { SuperAdminSidebar } from '@/components/superadmin/SuperAdminSidebar';
 import { useAuth } from '@/hooks/useAuth';
 import { Skeleton } from '@/components/ui/skeleton';
 function ManagerLayout() {
@@ -18,8 +19,15 @@ function StudentLayout() {
     </AppLayout>
   );
 }
+function SuperAdminLayout() {
+  return (
+    <AppLayout sidebar={<SuperAdminSidebar />}>
+      <Outlet />
+    </AppLayout>
+  );
+}
 export function HomePage() {
-  const { isAuthenticated, isManager, isStudent, loading } = useAuth();
+  const { isAuthenticated, isManager, isStudent, isSuperAdmin, loading } = useAuth();
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -32,9 +40,11 @@ export function HomePage() {
     );
   }
   if (!isAuthenticated) {
-    // For this phase, we assume a user is always logged in.
     // In a real app, redirect to a login page.
     // return <Navigate to="/login" replace />;
+  }
+  if (isSuperAdmin) {
+    return <SuperAdminLayout />;
   }
   if (isManager) {
     return <ManagerLayout />;

@@ -45,3 +45,19 @@ export interface Complaint {
   tags: string[];
   replies: ComplaintReply[];
 }
+export interface AuditLog {
+  id: string;
+  actor: Pick<User, 'id' | 'name' | 'role'>;
+  action: string;
+  entityType: string;
+  entityId: string;
+  timestamp: string; // ISO 8601 format
+  details: Record<string, any>;
+}
+export interface SystemAnalytics {
+  totalUsers: number;
+  totalMesses: number;
+  totalRevenue: number;
+  openComplaints: number;
+  revenueByMonth: { month: string; revenue: number }[];
+}

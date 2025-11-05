@@ -3,15 +3,22 @@ import { SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { format, parseISO, formatDistanceToNow } from 'date-fns';
-import { Send } from 'lucide-react';
+import { ComplaintForm } from './ComplaintForm';
+import { useState } from 'react';
 interface ComplaintDetailsProps {
   complaint: Complaint;
+  onUpdate?: () => void;
 }
-export function ComplaintDetails({ complaint }: ComplaintDetailsProps) {
+export function ComplaintDetails({ complaint: initialComplaint, onUpdate }: ComplaintDetailsProps) {
+  const [complaint, setComplaint] = useState(initialComplaint);
+  const handleReplySuccess = () => {
+    // This is a mock update. In a real app, you'd refetch the complaint data.
+    const updatedComplaint = { ...complaint }; // A full refetch would be better
+    setComplaint(updatedComplaint);
+    onUpdate?.();
+  };
   return (
     <div className="flex flex-col h-full">
       <SheetHeader className="px-6 pt-6 pb-4">
@@ -76,10 +83,7 @@ export function ComplaintDetails({ complaint }: ComplaintDetailsProps) {
       </ScrollArea>
       <Separator />
       <div className="px-6 py-4 bg-background">
-        <div className="flex gap-2">
-          <Textarea placeholder="Type your reply..." className="flex-1" />
-          <Button><Send className="h-4 w-4" /></Button>
-        </div>
+        <ComplaintForm mode="reply" complaintId={complaint.id} onSuccess={handleReplySuccess} />
       </div>
     </div>
   );

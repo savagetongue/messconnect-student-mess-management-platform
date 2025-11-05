@@ -3,12 +3,13 @@ import { motion } from 'framer-motion';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getComplaintsByRole } from '@/lib/api';
 import { Complaint } from '@/lib/types';
 import { useAuth } from '@/hooks/useAuth';
 import { ComplaintDetails } from '@/components/shared/ComplaintDetails';
+import { ComplaintForm } from '@/components/shared/ComplaintForm';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { format, parseISO } from 'date-fns';
@@ -23,15 +24,16 @@ export function StudentComplaintsPage() {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
+  const [isNewComplaintSheetOpen, setIsNewComplaintSheetOpen] = useState(false);
+  const fetchComplaints = async () => {
+    if (user) {
+      setLoading(true);
+      const data = await getComplaintsByRole('student', user.id);
+      setComplaints(data);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchComplaints = async () => {
-      if (user) {
-        setLoading(true);
-        const data = await getComplaintsByRole('student', user.id);
-        setComplaints(data);
-        setLoading(false);
-      }
-    };
     fetchComplaints();
   }, [user]);
   const renderSkeleton = () => (
@@ -60,7 +62,7 @@ export function StudentComplaintsPage() {
           <h1 className="text-4xl font-bold tracking-tight text-foreground">My Complaints</h1>
           <p className="text-lg text-muted-foreground">Track your issues and feedback here.</p>
         </div>
-        <Sheet>
+        <Sheet open={isNewComplaintSheetOpen} onOpenChange={setIsNewComplaintSheetOpen}>
           <SheetTrigger asChild>
             <Button size="lg">
               <PlusCircle className="h-5 w-5 mr-2" />
@@ -74,8 +76,10 @@ export function StudentComplaintsPage() {
                 Please provide details about the issue you are facing. We will look into it as soon as possible.
               </SheetDescription>
             </SheetHeader>
-            {/* Complaint submission form will go here */}
-            <div className="py-4">Form placeholder</div>
+            <ComplaintForm mode="new" onSuccess={() => {
+              setIsNewComplaintSheetOpen(false);
+              fetchComplaints();
+            }} />
           </SheetContent>
         </Sheet>
       </motion.div>
@@ -106,7 +110,7 @@ export function StudentComplaintsPage() {
       </motion.div>
       <Sheet open={!!selectedComplaint} onOpenChange={(isOpen) => !isOpen && setSelectedComplaint(null)}>
         <SheetContent className="sm:max-w-lg w-[90vw]">
-          {selectedComplaint && <ComplaintDetails complaint={selectedComplaint} />}
+          {selectedComplaint && <ComplaintDetails complaint={selectedComplaint} onUpdate={fetchComplaints} />}
         </SheetContent>
       </Sheet>
     </div>

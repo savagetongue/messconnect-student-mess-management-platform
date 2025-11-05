@@ -35,15 +35,15 @@ export function ManagerComplaintsPage() {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
+  const fetchComplaints = async () => {
+    if (user) {
+      setLoading(true);
+      const data = await getComplaintsByRole('manager', user.id);
+      setComplaints(data);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchComplaints = async () => {
-      if (user) {
-        setLoading(true);
-        const data = await getComplaintsByRole('manager', user.id);
-        setComplaints(data);
-        setLoading(false);
-      }
-    };
     fetchComplaints();
   }, [user]);
   const renderSkeleton = () => (
@@ -114,7 +114,7 @@ export function ManagerComplaintsPage() {
       </motion.div>
       <Sheet open={!!selectedComplaint} onOpenChange={(isOpen) => !isOpen && setSelectedComplaint(null)}>
         <SheetContent className="sm:max-w-lg w-[90vw]">
-          {selectedComplaint && <ComplaintDetails complaint={selectedComplaint} />}
+          {selectedComplaint && <ComplaintDetails complaint={selectedComplaint} onUpdate={fetchComplaints} />}
         </SheetContent>
       </Sheet>
     </div>

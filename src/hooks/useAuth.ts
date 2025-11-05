@@ -14,11 +14,22 @@ const mockStudent: User = {
   role: 'student',
   avatarUrl: 'https://api.dicebear.com/8.x/lorelei/svg?seed=Priya',
 };
+const mockSuperAdmin: User = {
+  id: 'adm-01',
+  name: 'Admin User',
+  email: 'admin@messconnect.com',
+  role: 'superadmin',
+  avatarUrl: 'https://api.dicebear.com/8.x/initials/svg?seed=Admin',
+};
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(mockManager);
   const [loading] = useState(false);
   const toggleRole = useCallback(() => {
-    setUser((currentUser) => (currentUser?.role === 'manager' ? mockStudent : mockManager));
+    setUser((currentUser) => {
+      if (currentUser?.role === 'manager') return mockStudent;
+      if (currentUser?.role === 'student') return mockSuperAdmin;
+      return mockManager;
+    });
   }, []);
   return {
     user,

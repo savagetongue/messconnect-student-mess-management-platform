@@ -12,12 +12,20 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import '@/index.css'
 import { HomePage } from '@/pages/HomePage'
+// Manager Pages
 import { ManagerDashboardPage } from '@/pages/manager/DashboardPage';
 import { ManagerJoinRequestsPage } from '@/pages/manager/JoinRequestsPage';
 import { ManagerBroadcastPage } from '@/pages/manager/BroadcastPage';
 import { ManagerComplaintsPage } from '@/pages/manager/ComplaintsPage';
+import { ManagerReportsPage } from '@/pages/manager/ReportsPage';
+// Student Pages
 import { StudentDashboardPage } from '@/pages/student/DashboardPage';
 import { StudentComplaintsPage } from '@/pages/student/ComplaintsPage';
+import { StudentPaymentsPage } from '@/pages/student/PaymentsPage';
+// SuperAdmin Pages
+import { SuperAdminDashboardPage } from '@/pages/superadmin/DashboardPage';
+import { UserManagementPage } from '@/pages/superadmin/UserManagementPage';
+import { AuditLogsPage } from '@/pages/superadmin/AuditLogsPage';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,36 +33,21 @@ const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
     children: [
       // Manager Routes
-      {
-        path: "manager/dashboard",
-        element: <ManagerDashboardPage />,
-      },
-      {
-        path: "manager/join-requests",
-        element: <ManagerJoinRequestsPage />,
-      },
-      {
-        path: "manager/broadcasts",
-        element: <ManagerBroadcastPage />,
-      },
-      {
-        path: "manager/complaints",
-        element: <ManagerComplaintsPage />,
-      },
+      { path: "manager/dashboard", element: <ManagerDashboardPage /> },
+      { path: "manager/join-requests", element: <ManagerJoinRequestsPage /> },
+      { path: "manager/broadcasts", element: <ManagerBroadcastPage /> },
+      { path: "manager/complaints", element: <ManagerComplaintsPage /> },
+      { path: "manager/reports", element: <ManagerReportsPage /> },
       // Student Routes
-      {
-        path: "student/dashboard",
-        element: <StudentDashboardPage />,
-      },
-      {
-        path: "student/complaints",
-        element: <StudentComplaintsPage />,
-      },
+      { path: "student/dashboard", element: <StudentDashboardPage /> },
+      { path: "student/complaints", element: <StudentComplaintsPage /> },
+      { path: "student/payments", element: <StudentPaymentsPage /> },
+      // SuperAdmin Routes
+      { path: "superadmin/dashboard", element: <SuperAdminDashboardPage /> },
+      { path: "superadmin/users", element: <UserManagementPage /> },
+      { path: "superadmin/audits", element: <AuditLogsPage /> },
       // Redirect from root to manager dashboard by default
-      {
-        index: true,
-        element: <Navigate to="/manager/dashboard" replace />,
-      }
+      { index: true, element: <Navigate to="/manager/dashboard" replace /> }
     ]
   },
 ]);
