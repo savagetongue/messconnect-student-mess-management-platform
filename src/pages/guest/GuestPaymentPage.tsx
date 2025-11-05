@@ -11,7 +11,7 @@ import { CreditCard, Utensils } from 'lucide-react';
 const paymentSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
   contact: z.string().min(10, 'Please enter a valid contact number or email.'),
-  amount: z.coerce.number().positive('Amount must be positive.'),
+  amount: z.number().positive('Amount must be positive.'),
 });
 export type PaymentFormValues = z.infer<typeof paymentSchema>;
 export function GuestPaymentPage() {
@@ -86,7 +86,13 @@ export function GuestPaymentPage() {
                       <FormControl>
                         <div className="relative">
                           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">���</span>
-                          <Input type="number" placeholder="150" className="pl-7" {...field} readOnly />
+                          <Input
+                            type="number"
+                            placeholder="150"
+                            className="pl-7"
+                            {...field}
+                            onChange={(e) => field.onChange(parseInt(e.target.value, 10) || 0)}
+                          />
                         </div>
                       </FormControl>
                       <FormMessage />
