@@ -40,9 +40,12 @@ export function HomePage() {
     );
   }
   if (!isAuthenticated) {
-    // In a real app, redirect to a login page.
+    // In a real app, this would be a more robust check.
+    // For this mock setup, we allow access but a real app would redirect.
     // return <Navigate to="/login" replace />;
   }
+  // For the purpose of this demo, we will cycle through roles.
+  // A real app would have a single role per user.
   if (isSuperAdmin) {
     return <SuperAdminLayout />;
   }
@@ -52,6 +55,6 @@ export function HomePage() {
   if (isStudent) {
     return <StudentLayout />;
   }
-  // Fallback redirect
-  return <Navigate to="/manager/dashboard" replace />;
+  // Fallback for when no role matches, though our mock auth always has one.
+  return <Navigate to="/login" replace />;
 }

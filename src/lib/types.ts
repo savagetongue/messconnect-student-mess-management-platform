@@ -61,3 +61,11 @@ export interface SystemAnalytics {
   openComplaints: number;
   revenueByMonth: { month: string; revenue: number }[];
 }
+export type PaymentStatus = 'success' | 'pending' | 'failed';
+export interface Payment {
+  id: string;
+  description: string;
+  amount: number;
+  date: string; // ISO 8601 format
+  status: PaymentStatus;
+}

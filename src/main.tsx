@@ -12,6 +12,10 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import '@/index.css'
 import { HomePage } from '@/pages/HomePage'
+// Auth & Public Pages
+import { LoginPage } from '@/pages/auth/LoginPage';
+import { RegisterPage } from '@/pages/auth/RegisterPage';
+import { GuestPaymentPage } from '@/pages/guest/GuestPaymentPage';
 // Manager Pages
 import { ManagerDashboardPage } from '@/pages/manager/DashboardPage';
 import { ManagerJoinRequestsPage } from '@/pages/manager/JoinRequestsPage';
@@ -27,6 +31,21 @@ import { SuperAdminDashboardPage } from '@/pages/superadmin/DashboardPage';
 import { UserManagementPage } from '@/pages/superadmin/UserManagementPage';
 import { AuditLogsPage } from '@/pages/superadmin/AuditLogsPage';
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <LoginPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/guest-payment",
+    element: <GuestPaymentPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
   {
     path: "/",
     element: <HomePage />,
@@ -46,7 +65,7 @@ const router = createBrowserRouter([
       { path: "superadmin/dashboard", element: <SuperAdminDashboardPage /> },
       { path: "superadmin/users", element: <UserManagementPage /> },
       { path: "superadmin/audits", element: <AuditLogsPage /> },
-      // Redirect from root to manager dashboard by default
+      // Redirect from root to manager dashboard by default for authenticated users
       { index: true, element: <Navigate to="/manager/dashboard" replace /> }
     ]
   },

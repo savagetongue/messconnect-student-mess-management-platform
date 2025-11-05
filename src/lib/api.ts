@@ -1,4 +1,4 @@
-import { JoinRequest, DashboardStats, Complaint, ComplaintReply, User, AuditLog, SystemAnalytics } from './types';
+import { JoinRequest, DashboardStats, Complaint, ComplaintReply, User, AuditLog, SystemAnalytics, Payment } from './types';
 import { subDays, formatISO, subHours, subMonths } from 'date-fns';
 // Mock Data
 const mockJoinRequests: JoinRequest[] = [
@@ -42,6 +42,12 @@ const mockSystemAnalytics: SystemAnalytics = {
     { month: 'Apr', revenue: 180000 }, { month: 'May', revenue: 220000 }, { month: 'Jun', revenue: 250000 },
   ],
 };
+const mockPayments: Payment[] = [
+    { id: 'pay-01', description: 'June Monthly Fee', amount: 4500, date: formatISO(subMonths(new Date(), 0)), status: 'success' },
+    { id: 'pay-02', description: 'May Monthly Fee', amount: 4500, date: formatISO(subMonths(new Date(), 1)), status: 'success' },
+    { id: 'pay-03', description: 'Guest Meal Coupon', amount: 150, date: formatISO(subMonths(new Date(), 2)), status: 'success' },
+    { id: 'pay-04', description: 'April Monthly Fee', amount: 4500, date: formatISO(subMonths(new Date(), 2)), status: 'success' },
+];
 // Mock API functions
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 export const getDashboardStats = async (): Promise<DashboardStats> => {
@@ -99,4 +105,9 @@ export const getAuditLogs = async (): Promise<AuditLog[]> => {
 export const getSystemAnalytics = async (): Promise<SystemAnalytics> => {
   await delay(600);
   return mockSystemAnalytics;
+};
+export const getStudentPayments = async (studentId: string): Promise<Payment[]> => {
+    await delay(750);
+    // In a real app, you'd filter by studentId
+    return mockPayments;
 };

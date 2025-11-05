@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
 import {
@@ -35,17 +35,17 @@ export function ManagerComplaintsPage() {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
-  const fetchComplaints = async () => {
+  const fetchComplaints = useCallback(async () => {
     if (user) {
       setLoading(true);
       const data = await getComplaintsByRole('manager', user.id);
       setComplaints(data);
       setLoading(false);
     }
-  };
+  }, [user]);
   useEffect(() => {
     fetchComplaints();
-  }, [user]);
+  }, [fetchComplaints]);
   const renderSkeleton = () => (
     Array.from({ length: 5 }).map((_, i) => (
       <TableRow key={i}>

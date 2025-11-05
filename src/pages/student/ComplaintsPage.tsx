@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,17 +25,17 @@ export function StudentComplaintsPage() {
   const [loading, setLoading] = useState(true);
   const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
   const [isNewComplaintSheetOpen, setIsNewComplaintSheetOpen] = useState(false);
-  const fetchComplaints = async () => {
+  const fetchComplaints = useCallback(async () => {
     if (user) {
       setLoading(true);
       const data = await getComplaintsByRole('student', user.id);
       setComplaints(data);
       setLoading(false);
     }
-  };
+  }, [user]);
   useEffect(() => {
     fetchComplaints();
-  }, [user]);
+  }, [fetchComplaints]);
   const renderSkeleton = () => (
     Array.from({ length: 3 }).map((_, i) => (
       <Card key={i} className="shadow-sm">
