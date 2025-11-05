@@ -11,13 +11,11 @@ import { CreditCard, Utensils } from 'lucide-react';
 const guestPaymentSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
   contact: z.string().min(10, 'Please enter a valid contact number or email.'),
-  amount: z.preprocess(
-    (a) => parseFloat(z.string().parse(a)),
-    z.number().positive('Amount must be positive.')
-  ),
+  amount: z.coerce.number().positive('Amount must be positive.'),
 });
+type GuestPaymentFormValues = z.infer<typeof guestPaymentSchema>;
 export function GuestPaymentPage() {
-  const form = useForm<z.infer<typeof guestPaymentSchema>>({
+  const form = useForm<GuestPaymentFormValues>({
     resolver: zodResolver(guestPaymentSchema),
     defaultValues: {
       name: '',
@@ -25,7 +23,7 @@ export function GuestPaymentPage() {
       amount: 150,
     },
   });
-  function onSubmit(values: z.infer<typeof guestPaymentSchema>) {
+  function onSubmit(values: GuestPaymentFormValues) {
     console.log(values);
     toast.success('Payment Initiated!', {
       description: `A payment link has been sent to ${values.contact}.`,
@@ -104,7 +102,7 @@ export function GuestPaymentPage() {
           </CardContent>
         </Card>
         <p className="text-center text-xs text-muted-foreground mt-4">
-          Built with ��️ at Cloudflare
+          Built with ❤️ at Cloudflare
         </p>
       </motion.div>
     </div>

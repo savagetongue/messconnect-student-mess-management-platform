@@ -1,5 +1,9 @@
 import { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User } from '@/lib/types';
+
+type UserRole = 'manager' | 'student' | 'superadmin';
+
 const mockManager: User = {
   id: 'mgr-01',
   name: 'Suresh Kumar',
@@ -7,6 +11,7 @@ const mockManager: User = {
   role: 'manager',
   avatarUrl: 'https://api.dicebear.com/8.x/lorelei/svg?seed=Suresh',
 };
+
 const mockStudent: User = {
   id: 'stu-02',
   name: 'Priya Patel',
@@ -14,6 +19,7 @@ const mockStudent: User = {
   role: 'student',
   avatarUrl: 'https://api.dicebear.com/8.x/lorelei/svg?seed=Priya',
 };
+
 const mockSuperAdmin: User = {
   id: 'adm-01',
   name: 'Admin User',
@@ -21,9 +27,40 @@ const mockSuperAdmin: User = {
   role: 'superadmin',
   avatarUrl: 'https://api.dicebear.com/8.x/initials/svg?seed=Admin',
 };
+
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(mockManager);
+  const [user, setUser] = useState<User | null>(null);
   const [loading] = useState(false);
+  const navigate = useNavigate();
+
+  const login = useCallback(
+    (role: UserRole) => {
+      switch (role) {
+        case 'manager':
+          setUser(mockManager);
+          navigate('/manager/dashboard');
+          break;
+        case 'student':
+          setUser(mockStudent);
+          navigate('/student/dashboard');
+          break;
+        case 'superadmin':
+          setUser(mockSuperAdmin);
+          navigate('/superadmin/dashboard');
+          break;
+        default:
+          // Should not happen with TypeScript, but good practice
+          break;
+      }
+    },
+    [navigate]
+  );
+
+  const logout = useCallback(() => {
+    setUser(null);
+    navigate('/login');
+  }, [navigate]);
+
   const toggleRole = useCallback(() => {
     setUser((currentUser) => {
       if (currentUser?.role === 'manager') return mockStudent;
@@ -31,9 +68,12 @@ export const useAuth = () => {
       return mockManager;
     });
   }, []);
+
   return {
     user,
     loading,
+    login,
+    logout,
     toggleRole,
     isAuthenticated: !!user,
     isManager: user?.role === 'manager',
@@ -41,3 +81,4 @@ export const useAuth = () => {
     isSuperAdmin: user?.role === 'superadmin',
   };
 };
+//

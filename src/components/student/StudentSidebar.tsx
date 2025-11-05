@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/hooks/useAuth';
 import { useLocation } from 'react-router-dom';
 export function StudentSidebar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
   const menuItems = [
     { href: '/student/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -62,11 +62,9 @@ export function StudentSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <a href="#">
-                <LogOut className="h-5 w-5" />
-                <span>Logout</span>
-              </a>
+            <SidebarMenuButton onClick={logout}>
+              <LogOut className="h-5 w-5" />
+              <span>Logout</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
